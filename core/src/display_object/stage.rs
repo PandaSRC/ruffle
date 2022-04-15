@@ -652,7 +652,7 @@ impl<'gc> TDisplayObject<'gc> for Stage<'gc> {
         u16::MAX
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         Default::default()
     }
 

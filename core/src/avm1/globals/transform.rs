@@ -7,6 +7,7 @@ use crate::avm1::object::transform_object::TransformObject;
 use crate::avm1::property_decl::{define_properties_on, Declaration};
 use crate::avm1::{Object, TObject, Value};
 use crate::display_object::{DisplayObject, MovieClip, TDisplayObject};
+use crate::prelude::*;
 use gc_arena::MutationContext;
 
 macro_rules! tx_getter {
@@ -155,7 +156,7 @@ fn pixel_bounds<'gc>(
     clip: MovieClip<'gc>,
 ) -> Result<Value<'gc>, Error<'gc>> {
     // This is equivalent to `clip.getBounds()`.
-    let bounds = clip.world_bounds();
+    let bounds = clip.world_bounds(&BoundsMode::Script);
 
     // Return Rectangle object.
     let constructor = activation.context.avm1.prototypes.rectangle_constructor;

@@ -1866,7 +1866,7 @@ impl<'gc> TDisplayObject<'gc> for MovieClip<'gc> {
         self.render_children(context);
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         self.0.read().drawing.self_bounds()
     }
 
@@ -1887,7 +1887,7 @@ impl<'gc> TDisplayObject<'gc> for MovieClip<'gc> {
             return false;
         }
 
-        if self.world_bounds().contains(point) {
+        if self.world_bounds(&BoundsMode::Engine).contains(point) {
             if let Some(masker) = self.masker() {
                 if !masker.hit_test_shape(context, point, HitTestOptions::SKIP_INVISIBLE) {
                     return false;
@@ -2153,7 +2153,7 @@ impl<'gc> TInteractiveObject<'gc> for MovieClip<'gc> {
                 }
             }
 
-            if self.world_bounds().contains(point) {
+            if self.world_bounds(&BoundsMode::Script).contains(point) {
                 // This MovieClip operates in "button mode" if it has a mouse handler,
                 // either via on(..) or via property mc.onRelease, etc.
                 let is_button_mode = self.is_button_mode(context);

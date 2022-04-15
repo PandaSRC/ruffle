@@ -1541,7 +1541,7 @@ impl<'gc> TDisplayObject<'gc> for EditText<'gc> {
         self.0.write(mc).object = Some(to.into());
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         self.0.read().bounds.clone()
     }
 
@@ -1620,7 +1620,10 @@ impl<'gc> TDisplayObject<'gc> for EditText<'gc> {
     }
 
     fn render_self(&self, context: &mut RenderContext<'_, 'gc>) {
-        if !self.world_bounds().intersects(&context.stage.view_bounds()) {
+        if !self
+            .world_bounds(&BoundsMode::Engine)
+            .intersects(&context.stage.view_bounds())
+        {
             // Off-screen; culled
             return;
         }

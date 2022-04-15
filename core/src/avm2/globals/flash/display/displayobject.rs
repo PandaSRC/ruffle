@@ -8,6 +8,7 @@ use crate::avm2::object::{stage_allocator, LoaderInfoObject, Object, TObject};
 use crate::avm2::value::Value;
 use crate::avm2::Error;
 use crate::display_object::{DisplayObject, HitTestOptions, TDisplayObject};
+use crate::prelude::*;
 use crate::types::{Degrees, Percent};
 use crate::vminterface::Instantiator;
 use gc_arena::{GcCell, MutationContext};
@@ -523,7 +524,7 @@ pub fn hit_test_point<'gc>(
                 )
                 .into());
         } else {
-            return Ok(dobj.hit_test_bounds((x, y)).into());
+            return Ok(dobj.hit_test_bounds((x, y), &BoundsMode::Script).into());
         }
     }
 

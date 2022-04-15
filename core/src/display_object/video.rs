@@ -420,7 +420,7 @@ impl<'gc> TDisplayObject<'gc> for Video<'gc> {
         }
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         let mut bounding_box = BoundingBox::default();
 
         match (*self.0.read().source.read()).borrow() {
@@ -434,7 +434,10 @@ impl<'gc> TDisplayObject<'gc> for Video<'gc> {
     }
 
     fn render(&self, context: &mut RenderContext) {
-        if !self.world_bounds().intersects(&context.stage.view_bounds()) {
+        if !self
+            .world_bounds(&BoundsMode::Engine)
+            .intersects(&context.stage.view_bounds())
+        {
             // Off-screen; culled
             return;
         }
@@ -445,7 +448,7 @@ impl<'gc> TDisplayObject<'gc> for Video<'gc> {
 
         if let Some((_frame_id, ref bitmap)) = read.decoded_frame {
             let mut transform = context.transform_stack.transform().clone();
-            let bounds = self.self_bounds();
+            let bounds = self.self_bounds(&BoundsMode::Script);
 
             // The actual decoded frames might be different in size than the declared
             // bounds of the VideoStream tag, so a final scale adjustment has to be done.

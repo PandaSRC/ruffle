@@ -615,7 +615,7 @@ impl<'gc> TDisplayObject<'gc> for Avm2Button<'gc> {
         }
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         // No inherent bounds; contains child DisplayObjects.
         BoundingBox::default()
     }

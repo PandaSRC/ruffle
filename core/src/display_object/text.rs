@@ -147,7 +147,7 @@ impl<'gc> TDisplayObject<'gc> for Text<'gc> {
         context.transform_stack.pop();
     }
 
-    fn self_bounds(&self) -> BoundingBox {
+    fn self_bounds(&self, _mode: &BoundsMode) -> BoundingBox {
         self.0.read().static_data.bounds.clone()
     }
 
@@ -157,7 +157,7 @@ impl<'gc> TDisplayObject<'gc> for Text<'gc> {
         mut point: (Twips, Twips),
         _options: HitTestOptions,
     ) -> bool {
-        if self.world_bounds().contains(point) {
+        if self.world_bounds(&BoundsMode::Engine).contains(point) {
             // Texts using the "Advanced text rendering" always hit test using their bounding box.
             if self.0.read().render_settings.is_advanced() {
                 return true;
